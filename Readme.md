@@ -173,8 +173,28 @@ AT+CNMA
 OK
 ```
 
-## How to SMS Bulk
+## How to create SMS Bulk
 
+Create a file `contacts2sms.csv`, column 1 is contact number and column 2 is the message.
+
+```
+085236000001;Good Morning !
+085236000002;How are you?
+085236000003;Can you come tomorrow?
+085236000004;Please, answer me
+085236000005;Today is great!
+```
+
+Execute code below to create a sms bulk which saved at `/var/tmp/sms`
+
+```
+grep -v '^#' contacts2sms.csv | while read INFO
+do
+  CONTACT=`echo $INFO | cut -f1 -d';'`
+  MESG=`echo $INFO | cut -f2 -d';'`
+  echo $CONTACT $MESG
+done > /var/tmp/sms/sms.bulk 
+```
 
 ## Limitation
 
