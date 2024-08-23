@@ -6,7 +6,7 @@
 pid="/var/run/smsgateway.pid"
 cfg="/usr/local/sbin/modem.cfg"
 prog="/usr/local/sbin/smsgateway.pl"
-error="/logsms/smsgateway.err"
+error="/var/log/smsgateway.err"
 smsdir="/var/tmp/sms"
 
 if ! [ -x $prog ]; then
