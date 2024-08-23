@@ -65,6 +65,7 @@ mkdir /var/tmp/sms
 Make executable
 
 ```
+chmod 755 /etc/init.d/smsgateway
 chmod 755 /usr/local/sbin/smsgateway.pl
 chmod 755 /usr/local/sbin/decodeSM.pl
 ```
@@ -84,8 +85,103 @@ Text      : Testing
 Sending SMS ...
 ```
 
+## Execution
+
+After execution the content of `/var/log/smsgateway.log` :
+
+```
+Smsgateway starting at Fri, 07-11-2014 16:23:23 WIT.
+
+Modem is connected!
+
+ATQ0 V1 E0 &C1 &D2 +FCLASS=0
+OK
+
+AT+IFC=2,2
+OK
+
+AT+CPIN?
++CPIN: READY
+
+AT+CSQ
++CSQ: 24,5
+
+OK
+
+AT+CREG?
++CREG: 0,1
+
+OK
+
+AT+CSMS=1
++CSMS: 1,1,1
+
+OK
+
+AT+CNMI=1,2,0,1,0;+CMEE=1
+OK
+
+AT+CPMS="SM"
++CPMS: 0,10,0,10
+
+OK
+
+AT+CPMS?
++CPMS: "SM",0,10,"SM",0,10
+
+OK
+
+AT+CMGF=0
+OK
+
+AT+CSMP=1,167,0,0
+OK
+```
+
+The content of `/var/log/smsgateway.log` after sms is delivered.
+
+```
+To: 085236006000
+SMS: Testing
+
+AT+CMGS=21
+> 0031000C818025630066970000A707D4F29C9E769F01
+
++CMGS: 54
+
+** Status Report **
+Reference  : 54
+PDU type   : SMS-SUBMIT
+SMSC       : 00
+Recipient  : +6285236006679
+Message    : Testing@
+Validity   : 1440 minutes
+Data coding: SMS Default Alphabet
+
++CDS: 25 0006360C81802563006697411170617285824111706182708200
+
+** Status Report **
+Reference  : 54
+PDU type   : SMS-STATUS-REPORT
+SMSC       : 00
+From number: +6285236006679
+Time stamp : 2014-11-07 16:27:58
+Discharge  : 2014-11-07 16:28:07
+Status     : 00 (Short message received succesfully)
+
+AT+CNMA
+OK
+```
+
+## How to SMS Bulk
+
+
+## Limitation
+
+* Only support 160 characters to sent.
+* Default alphabet is 7 bit data coding.
+
 ## Reference
 
 [SMS Gateway dengan Perl](https://awarmanf.wordpress.com/2016/08/18/sms-gateway-dengan-perl/)
-
 
