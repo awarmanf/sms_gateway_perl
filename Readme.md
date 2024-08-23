@@ -153,7 +153,7 @@ AT+CMGS=21
 Reference  : 54
 PDU type   : SMS-SUBMIT
 SMSC       : 00
-Recipient  : +6285236006679
+Recipient  : +6285236006000
 Message    : Testing@
 Validity   : 1440 minutes
 Data coding: SMS Default Alphabet
@@ -164,7 +164,7 @@ Data coding: SMS Default Alphabet
 Reference  : 54
 PDU type   : SMS-STATUS-REPORT
 SMSC       : 00
-From number: +6285236006679
+From number: +6285236006000
 Time stamp : 2014-11-07 16:27:58
 Discharge  : 2014-11-07 16:28:07
 Status     : 00 (Short message received succesfully)
