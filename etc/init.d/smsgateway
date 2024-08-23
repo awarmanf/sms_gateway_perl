@@ -1,0 +1,73 @@
+#!/bin/bash
+#
+# smsgateway  This shell script takes care of starting and stopping smsgateway
+#
+
+pid="/var/run/smsgateway.pid"
+cfg="/usr/local/sbin/modem.cfg"
+prog="/usr/local/sbin/smsgateway.pl"
+error="/logsms/smsgateway.err"
+smsdir="/var/tmp/sms"
+
+if ! [ -x $prog ]; then
+        exit 0
+fi
+
+case "$1" in
+  start) 
+    if [ -f $pid ]; then
+      echo "smsgateway is still running."
+    else
+      echo -n "Starting smsgateway:"
+      $prog -f $cfg >> $error 2>&1 &
+      echo "."
+      sleep 2
+    fi
+    ;;
+  reload)
+    if [ -f $pid ]; then
+      echo -n "Reloading smsgateway:"
+      read ppid < $pid
+      /bin/kill -HUP $ppid
+      echo "."
+    else
+      echo "smsgateway is not running."
+    fi
+    ;;
+  stop)
+    if [ -f $pid ]; then
+      echo -n "Stopping smsgateway:"
+      read ppid < $pid
+      /bin/kill $ppid
+      echo "."
+      sleep 2
+    else
+      echo "smsgateway is not running."
+    fi
+    ;;
+  stat)
+    if [ -f $pid ]; then
+      echo "smsgateway is running."
+    else
+      echo "smsgateway is not running."
+    fi
+    ;;
+  test)
+    if [ -f $pid ]; then
+      echo -n "Recipient : "; read RECIPIENT
+      echo -n "Text      : "; read TEXT
+      TMPFILE=`mktemp $smsdir/sms.XXXXXXXX`
+      echo "$RECIPIENT $TEXT" > $TMPFILE
+      echo "Sending SMS ..."
+    else
+      echo "smsgateway is not running."
+    fi
+    ;;
+   *)
+    echo "Usage: $0 {start|stop|reload|stat|test}"
+    exit 1
+    ;;
+esac
+
+exit 0
+
