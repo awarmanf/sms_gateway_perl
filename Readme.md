@@ -79,7 +79,7 @@ Running the service
 ## Test sending sms
 
 ```
-# /etc/init.d/smsgateway test 
+$ /etc/init.d/smsgateway test 
 Recipient : 085236006000
 Text      : Testing
 Sending SMS ...
@@ -187,7 +187,7 @@ Create a file `contacts2sms.csv`, column 1 is contact number and column 2 is the
 
 Execute code below to create a sms bulk which saved at `/var/tmp/sms`
 
-```
+```bash
 grep -v '^#' contacts2sms.csv | while read INFO
 do
   CONTACT=`echo $INFO | cut -f1 -d';'`
